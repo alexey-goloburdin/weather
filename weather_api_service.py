@@ -15,7 +15,7 @@ Celsius = float
 
 class WeatherType(str, Enum):
     THUNDERSTORM = "Гроза"
-    DRIZZLE = "Изморозь"
+    DRIZZLE = "Изморось"
     RAIN = "Дождь"
     SNOW = "Снег"
     CLEAR = "Ясно"
