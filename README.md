@@ -16,7 +16,7 @@ Mac. [О whereami](https://github.com/robmathers/WhereAmI).
 
 Файл `weather` — исполнимый файл с python кодом, его можно открыть посмотреть.
 
-Данный материал подготовлен в качестве примера к видео и книге
-«Тизированный Python».
+Данный материал подготовлен в качестве примера к [видео](https://www.youtube.com/watch?v=dKxiHlZvULQ) и [книге
+«Типизированный Python»](https://t.me/t0digital/151).
 
 
