@@ -1,9 +1,10 @@
 from datetime import datetime
+from dataclasses import dataclass
 from enum import Enum
 import json
 from json.decoder import JSONDecodeError
 import ssl
-from typing import Literal, NamedTuple
+from typing import Literal
 import urllib.request
 from urllib.error import URLError
 
@@ -22,7 +23,8 @@ class WeatherType(str, Enum):
     FOG = "Туман"
     CLOUDS = "Облачно"
 
-class Weather(NamedTuple):
+@dataclass(slots=True, frozen=True)
+class Weather:
     temperature: Celsius
     weather_type: WeatherType
     sunrise: datetime

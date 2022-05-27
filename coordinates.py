@@ -1,11 +1,13 @@
+from dataclasses import dataclass
 from subprocess import Popen, PIPE
-from typing import Literal, NamedTuple
+from typing import Literal
 
 import config
 from exceptions import CantGetCoordinates
 
 
-class Coordinates(NamedTuple):
+@dataclass(slots=True, frozen=True)
+class Coordinates:
     latitude: float
     longitude: float
 
