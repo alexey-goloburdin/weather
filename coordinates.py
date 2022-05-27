@@ -3,14 +3,8 @@ from subprocess import Popen, PIPE
 from typing import Literal
 
 import config
+from datatypes import Coordinates
 from exceptions import CantGetCoordinates
-
-
-@dataclass(slots=True, frozen=True)
-class Coordinates:
-    latitude: float
-    longitude: float
-
 
 def get_gps_coordinates() -> Coordinates:
     """Returns current coordinates using MacBook GPS"""

@@ -1,6 +1,3 @@
-from datetime import datetime
-from dataclasses import dataclass
-from enum import Enum
 import json
 from json.decoder import JSONDecodeError
 import ssl
@@ -8,28 +5,10 @@ from typing import Literal
 import urllib.request
 from urllib.error import URLError
 
+from datatypes import *
 from coordinates import Coordinates
 import config
 from exceptions import ApiServiceError
-
-Celsius = float
-
-class WeatherType(str, Enum):
-    THUNDERSTORM = "Гроза"
-    DRIZZLE = "Изморось"
-    RAIN = "Дождь"
-    SNOW = "Снег"
-    CLEAR = "Ясно"
-    FOG = "Туман"
-    CLOUDS = "Облачно"
-
-@dataclass(slots=True, frozen=True)
-class Weather:
-    temperature: Celsius
-    weather_type: WeatherType
-    sunrise: datetime
-    sunset: datetime
-    city: str
 
 def get_weather(coordinates: Coordinates) -> Weather:
     """Requests weather in OpenWeather API and returns it"""
