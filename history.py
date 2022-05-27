@@ -1,19 +1,19 @@
 from datetime import datetime
 import json
 from pathlib import Path
-from typing import TypedDict
+from typing import TypedDict, Protocol
 
 from weather_api_service import Weather
 from weather_formatter import format_weather
 
 
-class WeatherStorage:
+class WeatherStorage(Protocol):
     """Interface for any storage saving weather"""
     def save(self, weather: Weather) -> None:
         raise NotImplementedError
 
 
-class PlainFileWeatherStorage(WeatherStorage):
+class PlainFileWeatherStorage:
     """Store weather in plain text file"""
     def __init__(self, file: Path):
         self._file = file
@@ -30,7 +30,7 @@ class HistoryRecord(TypedDict):
     weather: str
 
 
-class JSONFileWeatherStorage(WeatherStorage):
+class JSONFileWeatherStorage:
     """Store weather in JSON file"""
     def __init__(self, jsonfile: Path):
         self._jsonfile = jsonfile
