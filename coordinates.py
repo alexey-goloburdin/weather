@@ -2,13 +2,20 @@ from dataclasses import dataclass
 from subprocess import Popen, PIPE
 from typing import Literal
 
+import platform
+
 import config
 from datatypes import Coordinates
 from exceptions import CantGetCoordinates
+from coordinates_api_service import get_coordinates
 
 def get_gps_coordinates() -> Coordinates:
-    """Returns current coordinates using MacBook GPS"""
-    coordinates = _get_whereami_coordinates()
+    if platform.system() == "Darwin":
+        """Returns current coordinates using MacBook GPS"""
+        coordinates = _get_whereami_coordinates()
+    else:
+        """Returns current coordinates using IPAPI service"""
+        coordinates = get_coordinates()
     return _round_coordinates(coordinates)
 
 def _get_whereami_coordinates() -> Coordinates:

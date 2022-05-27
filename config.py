@@ -6,3 +6,4 @@ OPENWEATHER_URL = (
     "appid=" + OPENWEATHER_API + "&lang=ru&"
     "units=metric"
 )
+IPAPI_URL = "https://ipapi.co/json"
