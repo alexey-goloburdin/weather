@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from subprocess import Popen, PIPE
 from typing import Literal
+import requests
 
 import config
 from exceptions import CantGetCoordinates
@@ -13,41 +13,24 @@ class Coordinates:
 
 
 def get_gps_coordinates() -> Coordinates:
-    """Returns current coordinates using MacBook GPS"""
-    coordinates = _get_whereami_coordinates()
+    """Returns current coordinates using ipinfo.io"""
+    coordinates = _get_ipinfo_coordinates()
     return _round_coordinates(coordinates)
 
-def _get_whereami_coordinates() -> Coordinates:
-    whereami_output = _get_whereami_output()
-    coordinates = _parse_coordinates(whereami_output)
-    return coordinates
-
-def _get_whereami_output() -> bytes:
-    process = Popen(["whereami"], stdout=PIPE)
-    output, err = process.communicate()
-    exit_code = process.wait()
-    if err is not None or exit_code != 0:
-        raise CantGetCoordinates
-    return output
-
-def _parse_coordinates(whereami_output: bytes) -> Coordinates:
-    try:
-        output = whereami_output.decode().strip().lower().split("\n")
-    except UnicodeDecodeError:
-        raise CantGetCoordinates
+def _get_ipinfo_coordinates() -> Coordinates:
+    output = _get_ipinfo_output()
     return Coordinates(
-        latitude=_parse_coord(output, "latitude"),
-        longitude=_parse_coord(output, "longitude")
+        latitude=output[0],
+        longitude=output[1]
     )
 
-def _parse_coord(
-        output: list[str],
-        coord_type: Literal["latitude"] | Literal["longitude"]) -> float:
-    for line in output:
-        if line.startswith(f"{coord_type}:"):
-            return _parse_float_coordinate(line.split()[1])
-    else:
+
+def _get_ipinfo_output() -> list[str]:
+    try:
+        output = requests.get(f"http://ipinfo.io/loc?token={config.ipinfo_token}").text.strip()
+    except:
         raise CantGetCoordinates
+    return output.split(",")
 
 def _parse_float_coordinate(value: str) -> float:
     try:
